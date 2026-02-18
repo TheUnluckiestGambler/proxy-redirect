@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    #msg {
+      padding: 20px;
+      text-align: center;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="msg">Loading through GitHub proxy…</div>
+
   <script>
-    // Get ?url= parameter from the extension
     const params = new URLSearchParams(window.location.search);
     const target = params.get("url");
 
     if (target) {
-      window.location.href = target;
-    } else {
-      document.body.innerHTML = "No URL provided.";
-    }
-  </script>
-</head>
-<body>
-  Redirecting...
-</body>
-</html>
+      const iframe = document.createElement("iframe");
+      iframe.src = target;
+
+      iframe.onload = () => {
+        document.getElementById("msg").style.display = "none";
+        iframe.style.display =
